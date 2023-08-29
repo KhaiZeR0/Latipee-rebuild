@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const axios = require('axios');
 const app = express();
 
 app.use(express.json());
@@ -8,11 +9,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 
-let user = {
-  id: 'lakdjfvbnkj2424t2',
-  email: 'caophankhai123@gmail.com',
-  password: "asjdnvkjasndva;'wprihjgieprhjg324909",
-};
 
 const JWT_SECRET = 'some super secret...';
 
@@ -37,9 +33,12 @@ app.get('/login', (req, res, next) => {
   res.render('login');
 });
 
-app.post('/forgot-password', (req, res, next) => {
+app.post('/forgot-password', async (req, res, next) => {
   const { email } = req.body;
 
+    try {
+      const response = await axios.get(`http://localhost:8000/users?email=${email}`);
+      const user = response.data[0];
   // Make sure user exist in database
   if (email !== user.email) {
     res.send('USer not registered');
@@ -71,19 +70,26 @@ app.post('/forgot-password', (req, res, next) => {
       res.send('Password reset link has been sent to your email...');
     }
   });
+
+} catch (error) {
+  console.log(error);
+  res.send('Error occurred.');
+}
 });
 
-app.get('/reset-password/:id/:token', (req, res, next) => {
+app.get('/reset-password/:id/:token', async (req, res, next) => {
   const { id, token } = req.params;
 
-  // Check if this id exist in database
-  if (id !== user.id) {
-    res.send('Invalid id...');
-    return;
-  }
-  // We have a valid id, and we have a valid user with this id
-  const secret = JWT_SECRET + user.password;
   try {
+    const response = await axios.get(`http://localhost:8000/users?id=${id}`);
+    const user = response.data[0];
+
+    if (!user) {
+      res.send('Invalid id...');
+      return;
+    }
+
+    const secret = JWT_SECRET + user.password;
     const payload = jwt.verify(token, secret);
     res.render('reset-password', { email: user.email });
   } catch (error) {
@@ -92,24 +98,30 @@ app.get('/reset-password/:id/:token', (req, res, next) => {
   }
 });
 
-app.post('/reset-password/:id/:token', (req, res, next) => {
+app.post('/reset-password/:id/:token', async (req, res, next) => {
   const { id, token } = req.params;
   const { password, password2 } = req.body;
-
-  // Check if this id exist in database
-  if (id !== user.id) {
-    res.send('Invalid id...');
-    return;
-  }
-
-  const secret = JWT_SECRET + user.password;
   try {
+    const response = await axios.get(`http://localhost:8000/users?id=${id}`);
+    const user = response.data[0];
+
+    if (!user) {
+      res.send('Invalid id...');
+      return;
+    }
+
+    const secret = JWT_SECRET + user.password;
     const payload = jwt.verify(token, secret);
-    // validate password and password2 should match
-    // we can simply find the user with the payload email and id  and finally update with new password
-    // alwasy hash the password before saving
-    user.password = password;
-    res.send(user);
+
+    if (password !== password2) {
+      res.send('Passwords do not match.');
+      return;
+    }
+
+    // Cập nhật mật khẩu mới trong JSON Server
+    await axios.patch(`http://localhost:8000/users/${id}`, { password });
+
+    res.send('Password updated successfully.');
   } catch (error) {
     console.log(error.message);
     res.send(error.message);

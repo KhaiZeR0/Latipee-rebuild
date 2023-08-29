@@ -1,21 +1,21 @@
 {
-  "user": [
+  "users": [
     {
       "userName": "admin21",
-      "userEmail": "dhs@gmail.com",
-      "passWord": "123",
+      "email": "dhs@gmail.com",
+      "password": "123",
       "id": 1
     },
     {
       "userName": "ewfx",
-      "userEmail": "hjkafs@gmail.com",
-      "passWord": "123",
+      "email": "hjkafs@gmail.com",
+      "password": "123",
       "id": 2
     },
     {
       "userName": "admin123",
-      "userEmail": "caophankhai123@gmail.com",
-      "passWord": "123456",
+      "email": "caophankhai123@gmail.com",
+      "password": "1234567890",
       "id": 3
     }
   ],
@@ -50,6 +50,5 @@
       "name": "tên sản phẩm",
       "price": 100000
     }
-    
   ]
 }

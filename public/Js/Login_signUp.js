@@ -1,4 +1,4 @@
-const userApi = 'http://localhost:8000/user';
+const userApi = 'http://localhost:8000/users';
 //Login
 //lấy data từ front và getUser từ json
 var btnLogin = document.querySelector(".btn.solid");
