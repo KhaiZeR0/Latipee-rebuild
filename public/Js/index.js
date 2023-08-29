@@ -1,6 +1,6 @@
 async function loadProducts() {
         try {
-            const response = await fetch('http://localhost:3000/products');
+            const response = await fetch('http://localhost:8000/products');
             const products = await response.json();
 
             const productContainer = document.querySelector('.product .section');

@@ -33,6 +33,9 @@ app.get('/', (req, res) => {
 app.get('/forgot-password', (req, res, next) => {
   res.render('forgot-password');
 });
+app.get('/login', (req, res, next) => {
+  res.render('login');
+});
 
 app.post('/forgot-password', (req, res, next) => {
   const { email } = req.body;

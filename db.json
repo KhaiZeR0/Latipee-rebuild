@@ -1,9 +1,55 @@
 {
-  "users": [
+  "user": [
     {
-      "id": 1,
-      "email": "caophankhai123@gmail.com",
-      "password": "123456"
+      "userName": "admin21",
+      "userEmail": "dhs@gmail.com",
+      "passWord": "123",
+      "id": 1
+    },
+    {
+      "userName": "ewfx",
+      "userEmail": "hjkafs@gmail.com",
+      "passWord": "123",
+      "id": 2
+    },
+    {
+      "userName": "admin123",
+      "userEmail": "caophankhai123@gmail.com",
+      "passWord": "123456",
+      "id": 3
     }
+  ],
+  "Products": [
+    {
+      "imageURL": "product.png",
+      "name": "tên sản phẩm",
+      "price": 100000
+    },
+    {
+      "imageURL": "product.png",
+      "name": "tên sản phẩm",
+      "price": 100000
+    },
+    {
+      "imageURL": "product.png",
+      "name": "tên sản phẩm",
+      "price": 100000
+    },
+    {
+      "imageURL": "product.png",
+      "name": "tên sản phẩm",
+      "price": 100000
+    },
+    {
+      "imageURL": "product.png",
+      "name": "tên sản phẩm",
+      "price": 100000
+    },
+    {
+      "imageURL": "product.png",
+      "name": "tên sản phẩm",
+      "price": 100000
+    }
+    
   ]
 }
