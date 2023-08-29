@@ -27,7 +27,7 @@ const transporter = nodemailer.createTransport({
   });
 
 app.get('/', (req, res) => {
-  res.send('Hello world!');
+  res.render('index');
 });
 
 app.get('/forgot-password', (req, res, next) => {
