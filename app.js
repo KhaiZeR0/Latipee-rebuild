@@ -40,8 +40,8 @@ app.post('/forgot-password', async (req, res, next) => {
       const response = await axios.get(`http://localhost:8000/users?email=${email}`);
       const user = response.data[0];
   // Make sure user exist in database
-  if (email !== user.email) {
-    res.send('USer not registered');
+  if (!user) {
+    res.send('Email không tồn tại trong hệ thống, vui lòng nhập lại hoặc đăng kí tài khoản');
     return;
   }
 
@@ -85,7 +85,7 @@ app.get('/reset-password/:id/:token', async (req, res, next) => {
     const user = response.data[0];
 
     if (!user) {
-      res.send('Invalid id...');
+      res.send('ID không hợp lệ');
       return;
     }
 
@@ -106,7 +106,7 @@ app.post('/reset-password/:id/:token', async (req, res, next) => {
     const user = response.data[0];
 
     if (!user) {
-      res.send('Invalid id...');
+      res.send('ID không hợp lệ');
       return;
     }
 
@@ -114,14 +114,14 @@ app.post('/reset-password/:id/:token', async (req, res, next) => {
     const payload = jwt.verify(token, secret);
 
     if (password !== password2) {
-      res.send('Passwords do not match.');
+      res.send('Mật khẩu không khớp, vui lòng back lại trang trước');
       return;
     }
 
     // Cập nhật mật khẩu mới trong JSON Server
     await axios.patch(`http://localhost:8000/users/${id}`, { password });
 
-    res.send('Password updated successfully.');
+    res.send('mật khẩu đã được cập nhật thành công, vui lòng đăng nhập lại');
   } catch (error) {
     console.log(error.message);
     res.send(error.message);
